@@ -5,6 +5,9 @@ import ar.com.hjg.pngj.PngWriter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.lang.reflect.Array;
+import java.nio.IntBuffer;
 
 public class ImageUtils {
     public static final Color COLOR_EMPTY = new Color(255, 255, 255, 0);
@@ -15,10 +18,16 @@ public class ImageUtils {
 
     public static void copyImageToPng(BufferedImage image, int imageY, ImageLineInt png, int pngLoc, boolean skipTransparent) {
         int[] scan = png.getScanline();
-        for (int imageX = 0; imageX < image.getWidth(); imageX++) {
-            int col = image.getRGB(imageX, imageY);
-            if (!skipTransparent || ((col >> 24) & 0xFF) == 255) { //is transparency allowed, or color is opaque
-                int scanX = (pngLoc * 3) + (imageX * 3);
+        int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); //packed integers
+
+        int pixelsPerRow = image.getWidth();
+        int startIndex = pixelsPerRow * imageY;
+
+        for (int offset = 0; offset < pixelsPerRow; offset++) {
+            int scanX = (pngLoc + offset) * 3;
+            int col = pixels[startIndex + offset];
+
+            if (!skipTransparent || ((col >> 24) & 0xFF) > 0) {
                 scan[scanX] = (col >> 16) & 0xFF; //red
                 scan[scanX + 1] = (col >> 8) & 0xFF; //green
                 scan[scanX + 2] = col & 0xFF; //blue

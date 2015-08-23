@@ -2,6 +2,7 @@ package net.acomputerdog.map.stage.merge;
 
 import ar.com.hjg.pngj.ImageLineInt;
 import ar.com.hjg.pngj.PngWriter;
+import net.acomputerdog.map.image.ImageUtils;
 import net.acomputerdog.map.script.MapScript;
 import net.acomputerdog.map.stage.process.MapOverlay;
 import net.acomputerdog.map.tile.Tile;
@@ -77,14 +78,7 @@ public class MapMerger {
     private static void copyBufferToScanLine(int xRegion, ImageLineInt[] lines, BufferedImage temp, MapScript script) {
         int xOff = script.worldToImageX(xRegion * REGION_SIZE_PIXELS);
         for (int y = 0; y < REGION_SIZE_PIXELS; y++) {
-            int[] scan = lines[y].getScanline();
-            for (int x = 0; x < REGION_SIZE_PIXELS; x++) {
-                int scanX = (xOff + x) * 3;
-                int col = temp.getRGB(x, y); //argb
-                scan[scanX] = (col >> 16) & 0xFF; //red
-                scan[scanX + 1] = (col >> 8) & 0xFF; //green
-                scan[scanX + 2] = col & 0xFF; //blue
-            }
+            ImageUtils.copyImageToPng(temp, y, lines[y], xOff, false);
         }
     }
 

@@ -8,8 +8,12 @@ import com.google.gson.stream.JsonReader;
 import net.acomputerdog.map.script.MapScript;
 import net.acomputerdog.map.stage.merge.MapMerger;
 import net.acomputerdog.map.stage.process.MapOverlay;
+import net.acomputerdog.map.stage.scale.MapScaler;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Main class
@@ -87,9 +91,12 @@ public class MapMaster {
         map.setShouldCloseStream(true);
         System.out.println("Preparing overlays...");
         MapOverlay.initOverlays(script);
+        System.out.println("Initializing scaler...");
+        MapScaler.initScaler(script, map.imgInfo);
         System.out.println("Merging tiles...");
         MapMerger.mergeTiles(script, map);
         System.out.println("Saving map...");
+        MapScaler.saveScaler();
         map.end();
     }
 

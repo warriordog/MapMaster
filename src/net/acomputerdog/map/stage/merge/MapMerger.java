@@ -5,6 +5,7 @@ import ar.com.hjg.pngj.PngWriter;
 import net.acomputerdog.map.image.ImageUtils;
 import net.acomputerdog.map.script.MapScript;
 import net.acomputerdog.map.stage.process.MapOverlay;
+import net.acomputerdog.map.stage.scale.MapScaler;
 import net.acomputerdog.map.tile.Tile;
 import net.acomputerdog.map.tile.TileProvider;
 import net.acomputerdog.map.tile.TileSource;
@@ -62,6 +63,7 @@ public class MapMerger {
             MapOverlay.writeIntoLine(row + i, line); //apply overlays
             outImage.writeRow(line);
         }
+        MapScaler.copyScales(lines);
     }
 
     private static void stackImages(List<Tile> tileList, Graphics2D graphics) {

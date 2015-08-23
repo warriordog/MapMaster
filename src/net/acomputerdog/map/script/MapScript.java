@@ -3,7 +3,6 @@ package net.acomputerdog.map.script;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 import net.acomputerdog.map.MapMaster;
-import net.acomputerdog.map.overlay.Overlay;
 import net.acomputerdog.map.tile.TileSource;
 
 import java.io.File;
@@ -11,13 +10,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class MapScript {
-    public static final int FORMAT_VERSION = 0;
+    public static final int FORMAT_VERSION = 1;
 
     private int version;
     private TileSource[] tileSources;
     private String[] overlaySources;
     private transient File[] overlayFiles;
     private String outputFile;
+    private int numScales;
     private int x1;
     private int y1;
     private int x2;
@@ -50,6 +50,10 @@ public class MapScript {
             }
         }
         return overlayFiles;
+    }
+
+    public int getNumScales() {
+        return numScales;
     }
 
     public String getOutputFile() {
@@ -109,6 +113,8 @@ public class MapScript {
         script.overlaySources = new String[2];
         script.overlaySources[0] = "./overlays1/";
         script.overlaySources[1] = "./overlays2/";
+        script.version = 1;
+        script.numScales = 1;
 
         Gson gson = new Gson();
         try (JsonWriter writer = createWriter(name)) {

@@ -10,12 +10,13 @@ import net.acomputerdog.map.tile.TileProvider;
 import net.acomputerdog.map.tile.TileSource;
 
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapMerger {
-    private static final int REGION_SIZE_PIXELS = 16 * 32;
+    private static final int REGION_SIZE_PIXELS = 512;
+    private static final int REGION_SIZE_SHIFT = 9;
 
     public static void mergeTiles(MapScript script, PngWriter outImage) {
         //code moved out to avoid recalculating math millions of times in a tight loop
@@ -35,12 +36,9 @@ public class MapMerger {
             for (int xRegion = startXRegion; xRegion < endXRegion; xRegion++) {
                 getTilesForRegion(script, xRegion, yRegion, tileList); //results are in tileList
                 if (tileList.size() > 0) {
-                    BufferedImage temp = new BufferedImage(REGION_SIZE_PIXELS, REGION_SIZE_PIXELS, BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D graphics = temp.createGraphics();
-                    graphics.setComposite(AlphaComposite.SrcOver); //Overwrite existing pixels, unless they are transparent.
-
-                    stackImages(tileList, graphics);
-                    copyBufferToScanLine(xRegion, lines, temp, script);
+                    for (Tile tile : tileList) {
+                        copyBufferToScanLine(xRegion, lines, tile.getImage(), script);
+                    }
 
                     tileList.clear();
                 }
@@ -56,8 +54,6 @@ public class MapMerger {
                 row++;
             }
         }
-
-        //System.out.println(row + " / " + (outImage.imgInfo.rows - 1));
     }
 
     private static void writeScanLines(ImageLineInt[] lines, int row, PngWriter outImage) {
@@ -78,7 +74,7 @@ public class MapMerger {
     private static void copyBufferToScanLine(int xRegion, ImageLineInt[] lines, BufferedImage temp, MapScript script) {
         int xOff = script.worldToImageX(xRegion * REGION_SIZE_PIXELS);
         for (int y = 0; y < REGION_SIZE_PIXELS; y++) {
-            ImageUtils.copyImageToPng(temp, y, lines[y], xOff, false);
+            ImageUtils.copyImageToPng(temp, y, lines[y], xOff, true);
         }
     }
 
@@ -101,7 +97,7 @@ public class MapMerger {
     }
 
     private static int getRegionCoord(int block) {
-        return (int) Math.floor((double) block / (double)REGION_SIZE_PIXELS);
+        return block >> 9; //shift by nine is same as dividing by 512 and flooring
     }
 
 }

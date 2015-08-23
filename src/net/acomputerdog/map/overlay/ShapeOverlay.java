@@ -5,14 +5,19 @@ import net.acomputerdog.map.image.ImageUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ShapeOverlay extends Overlay {
 
+    //todo replace with enum
     private static final int RECTANGLE  = 0;
     private static final int OVAL = 1;
     private static final int RECTANGLE_FILLED = 2;
     private static final int OVAL_FILLED = 3;
+    private static final int LINE = 4;
 
     private static final Color COLOR_DEFAULT = Color.BLACK;
 
@@ -27,26 +32,24 @@ public class ShapeOverlay extends Overlay {
         this.image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
         graphics.setColor(color);
-        try {
-            switch (type) {
-                case RECTANGLE:
-                    graphics.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-                    break;
-                case OVAL:
-                    graphics.drawOval(0, 0, getWidth() - 1, getHeight() - 1);
-                    break;
-                case RECTANGLE_FILLED:
-                    graphics.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
-                    break;
-                case OVAL_FILLED:
-                    graphics.fillOval(0, 0, getWidth() - 1, getHeight() - 1);
-                    break;
-                default:
-                    throw new RuntimeException("Invalid shape type!");
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            //shouldn't happen, but there in case of future changes
-            throw new RuntimeException("Invalid arguments for shape!");
+        switch (type) {
+            case RECTANGLE:
+                graphics.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+                break;
+            case OVAL:
+                graphics.drawOval(0, 0, getWidth() - 1, getHeight() - 1);
+                break;
+            case RECTANGLE_FILLED:
+                graphics.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
+                break;
+            case OVAL_FILLED:
+                graphics.fillOval(0, 0, getWidth() - 1, getHeight() - 1);
+                break;
+            case LINE:
+                graphics.drawLine(0, 0, getWidth() - 1, getHeight() - 1);
+                break;
+            default:
+                throw new RuntimeException("Invalid shape type!");
         }
     }
 
@@ -62,6 +65,8 @@ public class ShapeOverlay extends Overlay {
                     return RECTANGLE_FILLED;
                 case "oval_filled":
                     return OVAL_FILLED;
+                case "line":
+                    return LINE;
                 default:
                     throw new IllegalArgumentException("Unknown shape: " + type);
             }

@@ -28,7 +28,7 @@ public class TileSource {
         return mapFormat;
     }
 
-    public File getSource() {
+    public File getFile() {
         if (source == null) {
             source = MapMaster.createRelativeFile(path);
         }

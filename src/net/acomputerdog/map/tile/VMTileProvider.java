@@ -1,19 +1,24 @@
 package net.acomputerdog.map.tile;
 
-//todo implement (with converter)
+import net.acomputerdog.map.stage.convert.MapConverter;
+
 public class VMTileProvider extends TileProvider {
+
+    private final TileProvider passthrough;
+
     public VMTileProvider(TileSource tileSource) {
         super(tileSource);
-        throw new UnsupportedOperationException("Not implemented!");
+        passthrough = MapConverter.wrapVM(tileSource);
     }
 
     @Override
     public boolean hasRegion(int x, int y) {
-        return false;
+        return passthrough.hasRegion(x, y);
     }
 
     @Override
     public Tile getRegion(int x, int y) {
-        return null;
+        return passthrough.getRegion(x, y);
     }
+
 }

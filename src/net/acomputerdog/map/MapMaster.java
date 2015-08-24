@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import net.acomputerdog.map.script.MapScript;
+import net.acomputerdog.map.stage.convert.MapConverter;
 import net.acomputerdog.map.stage.merge.MapMerger;
 import net.acomputerdog.map.stage.process.MapOverlay;
 import net.acomputerdog.map.stage.scale.MapScaler;
@@ -20,7 +21,7 @@ import java.io.IOException;
  */
 public class MapMaster {
 
-    private static final String VERSION_STRING = "MapMaster v0.0";
+    private static final String VERSION_STRING = "MapMaster v0.1";
     private static final String USAGE_STRING = "mm <path_to_script>";
 
     private static File currentDir;
@@ -93,6 +94,8 @@ public class MapMaster {
         MapOverlay.initOverlays(script);
         System.out.println("Initializing scaler...");
         MapScaler.initScaler(script, map.imgInfo);
+        System.out.println("Initializing converter...");
+        MapConverter.initConverter();
         System.out.println("Merging tiles...");
         MapMerger.mergeTiles(script, map);
         System.out.println("Saving map...");

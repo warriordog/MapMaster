@@ -23,9 +23,9 @@ public class MWTileProvider extends JMTileProvider {
 
     @Override
     protected void loadFiles(TileSource tileSource) {
-        File[] contents = new File(tileSource.getSource(), "/images/z0/").listFiles();
+        File[] contents = new File(tileSource.getFile(), "/images/z0/").listFiles();
         if (contents == null) {
-            throw new IllegalArgumentException("Source file is not a JourneyMap data directory: " + tileSource.getSource().getPath());
+            throw new IllegalArgumentException("Source file is not a JourneyMap data directory: " + tileSource.getFile().getPath());
         }
         for (File f : contents) {
             TileLoc loc = getLoc(f);

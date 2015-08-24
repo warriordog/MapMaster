@@ -24,8 +24,8 @@ public class JMTile extends Tile {
             int y = Integer.parseInt(name.substring(split + 1, name.lastIndexOf('.')));
             this.startX = x;
             this.startY = y;
-            this.endX = x + 32;
-            this.endY = y + 32;
+            this.endX = x + 512;
+            this.endY = y + 512;
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
             throw new IllegalArgumentException("Source file is not a JourneyMap region tile: " + sourceFile.getName());
         }

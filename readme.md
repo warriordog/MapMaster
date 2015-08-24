@@ -9,10 +9,10 @@ MapMaster is a lightweight tool for merging and annotating map tiles created by 
 * Annotations - colored shaped and text (w/ font choice)
 * Automatically pick terrain from most-recent data
 * Fairly fast, about 90 seconds for a 5-source 20,000 x 20,000 block map w/ annotations
+* Able to render binary data storage from VoxelMap (raw world saves coming soon)
 
 **Weaknesses:**
 * Many tile formats are not implemented
-* "Terrain" based tile formates (VoxelMap, raw world saves) cannot currently be parsed
 * Formats based on storage sizes other than standard MC regions don't work well
 * Configuration scripts are not well documented
 * Colors must be specified by a packed 4-byte ARGB integer value

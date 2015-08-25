@@ -10,9 +10,11 @@ import java.awt.image.DataBufferInt;
 
 public class ImageUtils {
     public static final Color COLOR_EMPTY = new Color(255, 255, 255, 0);
+    public static final int COLOR_EMPTY_INT = COLOR_EMPTY.getRGB();
 
     public static boolean isTransparent(int color) {
-        return ((color >> 24) & 0xFF) == 255; //get the first byte "alpha" and bitmask to get rid of everything else
+        //checks if alpha is 255 or red,green, and blue are all 2555
+        return ((color >> 24) & 0xFF) == 255 || (color | 0xFF000000) == 0xFFFFFFFF; //get the first byte "alpha" and bitmask to get rid of everything else
     }
 
     public static void copyImageToPng(BufferedImage image, int imageY, ImageLineInt png, int pngLoc, boolean skipTransparent) {

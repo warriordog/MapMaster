@@ -47,6 +47,9 @@ public class TileSource {
                 case MAPWRITER:
                     provider = new MWTileProvider(this);
                     break;
+                case VOXELMAP_TILE:
+                    provider = new VMTTileProvider(this);
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown map format!");
             }
@@ -64,13 +67,18 @@ public class TileSource {
         JOURNEYMAP,
 
         /**
-         * Voxelmap format
+         * Voxelmap in data mode (default)
          */
         VOXELMAP,
 
         /**
          * MapWriter format
          */
-        MAPWRITER
+        MAPWRITER,
+
+        /**
+         * VoxelMap in Tile mode
+         */
+        VOXELMAP_TILE
     }
 }

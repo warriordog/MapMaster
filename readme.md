@@ -19,3 +19,10 @@ MapMaster is a lightweight tool for merging and annotating map tiles created by 
 * Different mappers have different renderers, which cause abrupt edges
 * Single-threaded
 * Bad big-O efficiency, compexity increases exponentially by number of tile sources
+
+**Supported Tile Formats:**
+* JourneyMap
+* MapWriter
+* VoxelMap (data mode)
+* VoxelMap (tile mode)
+* Anything that stores tiles in an x,y.png or x.y.png (if placed in a matching JM / MW directory tree)

@@ -12,27 +12,15 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class MapImporter {
-    private static File tempDir;
     private static int[] colors;
     private static int[] vmBuffer = new int[256 * 256 * 17];
 
     public static void initConverter() {
-        /*
-        tempDir = MapMaster.createRelativeFile("/temp/convert/");
-        if (!(tempDir.exists() || tempDir.mkdirs())) {
-            System.out.println("Could not create temporary conversion directory!");
-        }
-        */
         colors = loadColors();
     }
 
     public static TileProvider wrapVM(TileSource source) {
         File sourceFile = source.getFile();
-        String name = sourceFile.getName();
-        /*
-        File convertDir = new File(tempDir, "/VM/" + name + "/");
-        convertDir.mkdirs();
-        */
         try {
             ImportCache converter = new ImportCache();
             convertVMTiles(sourceFile, converter);
@@ -63,7 +51,6 @@ public class MapImporter {
                     }
                 }
             }
-            //converter.saveCache(outDir);
         } else {
             System.out.println("VM source \"" + source.getPath() + "\" is invalid!");
         }
@@ -220,7 +207,6 @@ public class MapImporter {
                     vmBuffer[index] = in.read();
                     index++;
                 }
-                //int read = in.read(vmBuffer);
                 if (index != vmBuffer.length) {
                     System.out.println("Did not read enough bytes: " + index + "/" + vmBuffer.length + " (" + f.getName() + ")");
                 }

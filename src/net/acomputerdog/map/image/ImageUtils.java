@@ -13,7 +13,7 @@ public class ImageUtils {
     public static final int COLOR_EMPTY_INT = COLOR_EMPTY.getRGB();
 
     public static boolean isTransparent(int color) {
-        //checks if alpha is 255 or red,green, and blue are all 2555
+        //checks if alpha is 255 or red,green, and blue are all 255
         return ((color >> 24) & 0xFF) == 255 || (color | 0xFF000000) == 0xFFFFFFFF; //get the first byte "alpha" and bitmask to get rid of everything else
     }
 

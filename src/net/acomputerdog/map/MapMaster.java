@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import net.acomputerdog.map.script.MapScript;
-import net.acomputerdog.map.stage.convert.MapConverter;
+import net.acomputerdog.map.stage.convert.in.MapImporter;
 import net.acomputerdog.map.stage.merge.MapMerger;
 import net.acomputerdog.map.stage.process.MapOverlay;
 import net.acomputerdog.map.stage.scale.MapScaler;
@@ -95,7 +95,7 @@ public class MapMaster {
         System.out.println("Initializing scaler...");
         MapScaler.initScaler(script, map.imgInfo);
         System.out.println("Initializing converter...");
-        MapConverter.initConverter();
+        MapImporter.initConverter();
         System.out.println("Merging tiles...");
         MapMerger.mergeTiles(script, map);
         System.out.println("Saving map...");

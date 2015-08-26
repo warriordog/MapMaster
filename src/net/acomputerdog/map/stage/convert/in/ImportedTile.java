@@ -1,16 +1,16 @@
-package net.acomputerdog.map.stage.convert;
+package net.acomputerdog.map.stage.convert.in;
 
 import net.acomputerdog.map.image.SourcedImage;
 import net.acomputerdog.map.tile.Tile;
 import net.acomputerdog.map.tile.TileSource;
 
-public class ConverterTile extends Tile {
+public class ImportedTile extends Tile {
 
     private final SourcedImage image;
     private final int startX, startY, endX, endY;
     private final long modified;
 
-    public ConverterTile(TileSource source, SourcedImage image, int x, int y) {
+    public ImportedTile(TileSource source, SourcedImage image, int x, int y) {
         super(source);
         this.image = image;
         this.startX = x;

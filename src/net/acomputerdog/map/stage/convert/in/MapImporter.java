@@ -1,4 +1,4 @@
-package net.acomputerdog.map.stage.convert;
+package net.acomputerdog.map.stage.convert.in;
 
 import net.acomputerdog.map.tile.TileProvider;
 import net.acomputerdog.map.tile.TileSource;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class MapConverter {
+public class MapImporter {
     private static File tempDir;
     private static int[] colors;
     private static int[] vmBuffer = new int[256 * 256 * 17];
@@ -34,15 +34,15 @@ public class MapConverter {
         convertDir.mkdirs();
         */
         try {
-            ConverterCache converter = new ConverterCache();
+            ImportCache converter = new ImportCache();
             convertVMTiles(sourceFile, converter);
-            return new ConverterTileProvider(source, converter);
+            return new ImportTileProvider(source, converter);
         } catch (Exception e) {
             throw new RuntimeException("Exception converting VM terrain!", e);
         }
     }
 
-    private static void convertVMTiles(File source, ConverterCache converter) throws IOException {
+    private static void convertVMTiles(File source, ImportCache converter) throws IOException {
         File sourceFile = new File(source, "/Overworld (dimension 0)/");
         File[] contents = sourceFile.listFiles();
         if (contents != null && contents.length > 0) {
@@ -230,7 +230,7 @@ public class MapConverter {
     }
 
     private static int[] loadColors() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(MapConverter.class.getResourceAsStream("/VMTiles.cfg")))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(MapImporter.class.getResourceAsStream("/VMTiles.cfg")))) {
             List<Integer> colorList = new ArrayList<>();
             while (reader.ready()) {
                 String fullLine = reader.readLine().trim();

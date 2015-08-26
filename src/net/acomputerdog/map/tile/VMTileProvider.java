@@ -1,6 +1,6 @@
 package net.acomputerdog.map.tile;
 
-import net.acomputerdog.map.stage.convert.MapConverter;
+import net.acomputerdog.map.stage.convert.in.MapImporter;
 
 public class VMTileProvider extends TileProvider {
 
@@ -8,7 +8,7 @@ public class VMTileProvider extends TileProvider {
 
     public VMTileProvider(TileSource tileSource) {
         super(tileSource);
-        passthrough = MapConverter.wrapVM(tileSource);
+        passthrough = MapImporter.wrapVM(tileSource);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.acomputerdog.map.stage.convert;
+package net.acomputerdog.map.stage.convert.in;
 
 import net.acomputerdog.map.image.SourcedImage;
 import net.acomputerdog.map.tile.Tile;
@@ -7,11 +7,11 @@ import net.acomputerdog.map.tile.TileSource;
 
 import java.io.File;
 
-public class ConverterTileProvider extends TileProvider {
+public class ImportTileProvider extends TileProvider {
 
-    private final ConverterCache cache;
+    private final ImportCache cache;
 
-    public ConverterTileProvider(TileSource tileSource, ConverterCache cache) {
+    public ImportTileProvider(TileSource tileSource, ImportCache cache) {
         super(tileSource);
         this.cache = cache;
     }
@@ -25,7 +25,7 @@ public class ConverterTileProvider extends TileProvider {
     public Tile getRegion(int x, int y) {
         try {
             SourcedImage image = cache.getImageForRegion(x, y);
-            return new ConverterTile(getTileSource(), image, x, y);
+            return new ImportedTile(getTileSource(), image, x, y);
         } catch (Exception e) {
             throw new RuntimeException("Unable to load region " + x + "," + y + " from converter cache!", e);
         }

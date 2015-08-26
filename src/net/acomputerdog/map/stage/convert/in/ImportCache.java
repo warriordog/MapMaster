@@ -1,4 +1,4 @@
-package net.acomputerdog.map.stage.convert;
+package net.acomputerdog.map.stage.convert.in;
 
 import net.acomputerdog.map.image.SourcedImage;
 
@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConverterCache {
+public class ImportCache {
     private final Map<RegionLoc, SourcedImage> cache;
 
     private RegionLoc temp;
 
-    public ConverterCache() {
+    public ImportCache() {
         cache = new HashMap<>();
         temp = new RegionLoc(0, 0);
     }

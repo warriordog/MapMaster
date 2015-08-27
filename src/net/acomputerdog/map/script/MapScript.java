@@ -14,13 +14,13 @@ import java.io.IOException;
 public class MapScript {
     public static final int FORMAT_VERSION = 2;
 
-    private int version;
-    private TileSource[] tileSources;
-    private String[] overlaySources;
-    private ExportType[] exports;
+    private int version = -1;
+    private TileSource[] tileSources = new TileSource[0];
+    private String[] overlaySources = new String[0];
+    private ExportType[] exports = new ExportType[0];
     private transient File[] overlayFiles;
     private String outputFile;
-    private int numScales;
+    private int numScales = 1;
     private int x1;
     private int y1;
     private int x2;

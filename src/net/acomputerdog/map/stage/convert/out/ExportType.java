@@ -5,7 +5,7 @@ import net.acomputerdog.map.tile.TileFormat;
 public class ExportType {
     private String outputPath;
     private TileFormat mapFormat;
-    private boolean includeOverlays;
+    private boolean includeOverlays = false;
 
     public ExportType() {
         //serialization

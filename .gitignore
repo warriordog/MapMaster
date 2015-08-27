@@ -13,7 +13,7 @@
 hs_err_pid*
 
 #Working directory
-WorkingDir/
+/WorkingDir/
 
 #Compiler temp
-out/
+/out/

@@ -7,6 +7,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import net.acomputerdog.map.script.MapScript;
 import net.acomputerdog.map.stage.convert.in.MapImporter;
+import net.acomputerdog.map.stage.convert.out.MapExporter;
 import net.acomputerdog.map.stage.merge.MapMerger;
 import net.acomputerdog.map.stage.process.MapOverlay;
 import net.acomputerdog.map.stage.scale.MapScaler;
@@ -21,7 +22,7 @@ import java.io.IOException;
  */
 public class MapMaster {
 
-    private static final String VERSION_STRING = "MapMaster v0.1";
+    private static final String VERSION_STRING = "MapMaster v0.2";
     private static final String USAGE_STRING = "mm <path_to_script>";
 
     private static File currentDir;
@@ -56,9 +57,9 @@ public class MapMaster {
             //not really a better way to do this while keeping separated exception trees
             if (script != null) {
                 if (script.getVersion() == MapScript.FORMAT_VERSION) {
-                    System.out.println("Read script with " + script.getTileSources().length + " tile and " + script.getOverlaySources().length + " overlay sources.");
+                    System.out.println("Read script with " + script.getTileSources().length + " tile, " + script.getOverlaySources().length + " overlay, and " + script.getExports().length + " export tasks.");
                     try {
-                        System.out.println("Creating map...");
+                        System.out.println("Starting...");
                         createMap(script);
                         System.out.println("Done.  Map created successfully in " + ((System.currentTimeMillis() - startTime) / 1000) + " seconds.");
                     } catch (Exception e) {
@@ -90,13 +91,15 @@ public class MapMaster {
     public static void createMap(MapScript script) {
         PngWriter map = new PngWriter(createRelativeFile(script.getOutputFile()), new ImageInfo(script.getWidth(), script.getHeight(), 8, false));
         map.setShouldCloseStream(true);
-        System.out.println("Preparing overlays...");
+        System.out.println("Initializing overlays...");
         MapOverlay.initOverlays(script);
         System.out.println("Initializing scaler...");
         MapScaler.initScaler(script, map.imgInfo);
-        System.out.println("Initializing converter...");
+        System.out.println("Initializing importer...");
         MapImporter.initConverter();
-        System.out.println("Merging tiles...");
+        System.out.println("Initializing exporter...");
+        MapExporter.init(script.getExports());
+        System.out.println("Creating map...");
         MapMerger.mergeTiles(script, map);
         System.out.println("Saving map...");
         MapScaler.saveScaler();

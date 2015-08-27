@@ -3,6 +3,8 @@ package net.acomputerdog.map.script;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 import net.acomputerdog.map.MapMaster;
+import net.acomputerdog.map.stage.convert.out.ExportType;
+import net.acomputerdog.map.tile.TileFormat;
 import net.acomputerdog.map.tile.TileSource;
 
 import java.io.File;
@@ -10,11 +12,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class MapScript {
-    public static final int FORMAT_VERSION = 1;
+    public static final int FORMAT_VERSION = 2;
 
     private int version;
     private TileSource[] tileSources;
     private String[] overlaySources;
+    private ExportType[] exports;
     private transient File[] overlayFiles;
     private String outputFile;
     private int numScales;
@@ -92,6 +95,10 @@ public class MapScript {
         return y - y1;
     }
 
+    public ExportType[] getExports() {
+        return exports;
+    }
+
     /**
      * Creates a template MapScript
      */
@@ -108,8 +115,8 @@ public class MapScript {
         script.x2 = 1000;
         script.y2 = 1000;
         script.tileSources = new TileSource[2];
-        script.tileSources[0] = new TileSource(TileSource.Format.JOURNEYMAP, "./source1/");
-        script.tileSources[1] = new TileSource(TileSource.Format.JOURNEYMAP, "./source2/");
+        script.tileSources[0] = new TileSource(TileFormat.JOURNEYMAP, "./source1/");
+        script.tileSources[1] = new TileSource(TileFormat.JOURNEYMAP, "./source2/");
         script.overlaySources = new String[2];
         script.overlaySources[0] = "./overlays1/";
         script.overlaySources[1] = "./overlays2/";

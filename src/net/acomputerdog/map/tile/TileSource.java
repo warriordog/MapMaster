@@ -9,7 +9,7 @@ import java.io.File;
  */
 public class TileSource {
 
-    private Format mapFormat;
+    private TileFormat mapFormat;
     private String path;
     private transient File source;
     //transient so no serialization
@@ -19,12 +19,12 @@ public class TileSource {
         //private constructor for serialization
     }
 
-    public TileSource(Format mapFormat, String path) {
+    public TileSource(TileFormat mapFormat, String path) {
         this.mapFormat = mapFormat;
         this.path = path;
     }
 
-    public Format getMapFormat() {
+    public TileFormat getMapFormat() {
         return mapFormat;
     }
 
@@ -57,28 +57,4 @@ public class TileSource {
         return provider;
     }
 
-    /**
-     * Represents a particular map section storage format
-     */
-    public enum Format {
-        /**
-         * Journeymap format
-         */
-        JOURNEYMAP,
-
-        /**
-         * Voxelmap in data mode (default)
-         */
-        VOXELMAP,
-
-        /**
-         * MapWriter format
-         */
-        MAPWRITER,
-
-        /**
-         * VoxelMap in Tile mode
-         */
-        VOXELMAP_TILE
-    }
 }

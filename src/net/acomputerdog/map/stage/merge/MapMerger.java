@@ -4,6 +4,7 @@ import ar.com.hjg.pngj.ImageLineInt;
 import ar.com.hjg.pngj.PngWriter;
 import net.acomputerdog.map.image.ImageUtils;
 import net.acomputerdog.map.script.MapScript;
+import net.acomputerdog.map.stage.convert.out.MapExporter;
 import net.acomputerdog.map.stage.process.MapOverlay;
 import net.acomputerdog.map.stage.scale.MapScaler;
 import net.acomputerdog.map.tile.Tile;
@@ -34,9 +35,11 @@ public class MapMerger {
         int row = 0;
         for (int yRegion = startYRegion; yRegion < endYRegion; yRegion++) {
             ImageLineInt[] lines = createRegionLines(outImage);
+            boolean changed = false;
             for (int xRegion = startXRegion; xRegion < endXRegion; xRegion++) {
                 getTilesForRegion(script, xRegion, yRegion, tileList); //results are in tileList
                 if (tileList.size() > 0) {
+                    changed = true;
                     for (Tile tile : tileList) {
                         copyBufferToScanLine(xRegion, lines, tile.getImage(), script);
                     }
@@ -44,7 +47,7 @@ public class MapMerger {
                     tileList.clear();
                 }
             }
-            writeScanLines(lines, row, outImage);
+            writeScanLines(lines, startXRegion, endXRegion, startYRegion, row, outImage, changed);
             row += lines.length;
         }
         int left = outImage.imgInfo.rows - row - 1;
@@ -57,12 +60,15 @@ public class MapMerger {
         }
     }
 
-    private static void writeScanLines(ImageLineInt[] lines, int row, PngWriter outImage) {
+    private static void writeScanLines(ImageLineInt[] lines, int x1, int x2, int y1, int row, PngWriter outImage, boolean changed) {
+        int rY = y1 + (row / 512);
+        MapExporter.writeRegionsPre(lines, x1, x2, rY, changed);
         for (int i = 0; i < lines.length; i++) {
             ImageLineInt line = lines[i];
             MapOverlay.writeIntoLine(row + i, line); //apply overlays
             outImage.writeRow(line);
         }
+        MapExporter.writeRegionsPost(lines, x1, x2, rY, changed);
         MapScaler.copyScales(lines);
     }
 

@@ -42,7 +42,7 @@ public class MapImporter {
                     if (parts.length == 2) {
                         try {
                             int part1 = Integer.parseInt(parts[0]);
-                            int part2 = Integer.parseInt(parts[1]) - 1;
+                            int part2 = Integer.parseInt(parts[1]);
                             int x = part1 / 2; //VM uses 256x256 sub-regions
                             int y = part2 / 2;
                             BufferedImage image = converter.getOrCreateImage(x, y, f);
@@ -57,21 +57,15 @@ public class MapImporter {
     }
 
     private static void writeVMSection(BufferedImage image, File f, int part1, int part2) {
-        int offX = 256 * (Math.abs(part1) % 2); //0 if even, 256 if odd
-        int offY = 256 * (Math.abs(part2 + 1) % 2);
+        int offX = (part1 % 2 == 0) ? 0 : 256;//256 * (Math.abs(part1) % 2); //0 if even, 256 if odd
+        int offY = (part2 % 2 == 0) ? 0 : 256;//256 * (Math.abs(part2 + 1) % 2);
 
         try {
             int[] data = readVMSection(f);
             int index = 0;
             for (int y = offY; y < offY + 256; y++) {
                 for (int x = offX; x < offX + 256; x++) {
-                    try {
-                        image.setRGB(x, y, getVMColor(data, index, x - offX, y - offY));
-                    } catch (Exception e) {
-                        System.err.println(offX + " / " + x + " / " + (offX + 256));
-                        System.err.println(offY + " / " + y + " / " + (offY + 256));
-                        throw e;
-                    }
+                    image.setRGB(x, y, getVMColor(data, index, x - offX, y - offY));
                     index += 17;
                 }
             }

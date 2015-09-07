@@ -5,6 +5,7 @@ import net.acomputerdog.map.tile.Tile;
 import net.acomputerdog.map.tile.TileProvider;
 import net.acomputerdog.map.tile.TileSource;
 
+import java.awt.*;
 import java.io.File;
 
 public class ImportTileProvider extends TileProvider {
@@ -25,6 +26,10 @@ public class ImportTileProvider extends TileProvider {
     public Tile getRegion(int x, int y) {
         try {
             SourcedImage image = cache.getImageForRegion(x, y);
+            Graphics2D g = image.createGraphics();
+            //Debugging
+            g.setColor(Color.BLACK);
+            g.drawRect(0, 0, 511, 511);
             return new ImportedTile(getTileSource(), image, x, y);
         } catch (Exception e) {
             throw new RuntimeException("Unable to load region " + x + "," + y + " from converter cache!", e);

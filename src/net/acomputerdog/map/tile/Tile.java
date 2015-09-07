@@ -18,7 +18,7 @@ public abstract class Tile {
     public abstract BufferedImage getImage();
 
     public int getWidth() {
-        return getEndX() - getEndY();
+        return getEndX() - getStartX();
     }
 
     public int getHeight() {

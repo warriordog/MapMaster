@@ -31,6 +31,9 @@ public class VMTTile extends Tile {
         copyImage(g, provider, x, y + 1, 0, 256);
         copyImage(g, provider, x + 1, y + 1, 256, 256);
 
+        g.setColor(Color.BLACK);
+        g.drawRect(0, 0, 511, 511);
+
         this.startX = x;
         this.startY = y;
         this.endX = x + 512;
